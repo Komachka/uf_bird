@@ -1,30 +1,40 @@
-package com.kstorozh.game.states;
+package com.kstorozh.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.kstorozh.game.controller.GameStateController;
 import com.kstorozh.game.model.Bird;
 import com.kstorozh.game.UfBird;
 import com.kstorozh.game.model.Tube;
 
+
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class PlayState extends State {
 
     private Bird bird;
     private Texture background;
     private static final String imagePath = "sky.png";
-    private static final String gameOverImagePath = "";
+    private String scoreStringName;
+    BitmapFont bitmapScoreName;
+    Set<Tube> passedTube = new HashSet<Tube>();
 
 
     private ArrayList<Tube> tubes = new ArrayList<Tube>();
 
-    public PlayState(GameStateManager gsm) {
+    public PlayState(GameStateController gsm) {
         super(gsm);
         bird = new Bird(50, 300);
-        camera.setToOrtho(false, UfBird.WIDTH/2, UfBird.HEIGHT/2);
+        camera.setToOrtho(false, (int)(UfBird.WIDTH*0.7), (int)(UfBird.HEIGHT*0.7));
         background = new Texture(imagePath);
         createTubes();
+        scoreStringName = "score: 0";
+        bitmapScoreName = new BitmapFont();
+
     }
 
     private void createTubes() {
@@ -49,17 +59,27 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         bird.update(dt);
-        camera.position.x = bird.getPosition().x + 50;
+        camera.position.x = bird.getPosition().x + 80;
         for (Tube t : tubes)
         {
             if (camera.position.x - (camera.viewportWidth/2) > t.getPositionTopTube().x + t.getTopTube().getWidth())
             {
                 t.reposition(t.getPositionTopTube().x + ((Tube.WIDTH + Tube.TUBE_SPACING) * Tube.TUBE_COUNT));
+                if (passedTube.contains(t))
+                    passedTube.remove(t);
+            }
+            if (t.pass(bird.getBounds()) && !passedTube.contains(t))
+            {
+                bird.setScore(1);
+                passedTube.add(t);
+
             }
             if (t.collides(bird.getBounds()))
                 gsm.setState(new GameOverState(gsm));
+
         }
         camera.update();
+
 
     }
 
@@ -68,7 +88,7 @@ public class PlayState extends State {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 
-        spriteBatch.draw(background, camera.position.x - (camera.viewportWidth/2), camera.position.y - (camera.viewportHeight/2));
+        spriteBatch.draw(background, camera.position.x - (camera.viewportWidth/2), camera.position.y - (camera.viewportHeight/2), (int)(background.getWidth()*1.7), (int)(background.getHeight()*1.7));
 
         for (Tube tube  : tubes) {
             spriteBatch.draw(tube.getTopTube(), tube.getPositionTopTube().x, tube.getPositionTopTube().y);
@@ -76,6 +96,10 @@ public class PlayState extends State {
 
         }
         spriteBatch.draw(bird.getPic(), bird.getPosition().x, bird.getPosition().y);
+        scoreStringName = "score: " + bird.getScore();
+        System.out.println(bird.getScore());
+        bitmapScoreName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        bitmapScoreName.draw(spriteBatch, scoreStringName, bird.getPosition().x - 10, 100);
         spriteBatch.end();
 
     }

@@ -3,6 +3,7 @@ package com.kstorozh.game.model;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.kstorozh.game.UfBird;
 
 import java.util.Random;
 
@@ -11,7 +12,7 @@ import java.util.Random;
  */
 
 public class Tube {
-    private static final int FLUCTUATION = 130;
+    private static final int FLUCTUATION = 100;
     public static final int TUBE_GAP = 100;
     public static final int TUBE_SPACING = 125;
     public static final int TUBE_COUNT = 4;
@@ -21,7 +22,6 @@ public class Tube {
     private Vector2 positionTopTube, positionButtomTube;
     private static final String topTubeImagePath = "tubeTop.png";
     private static final String bottomTubeImagePath = "tubeBottom.png";
-
     private Rectangle boundsTop, boundsBottom;
 
 
@@ -66,5 +66,10 @@ public class Tube {
     public boolean collides(Rectangle birdRec)
     {
         return birdRec.overlaps(boundsBottom) || birdRec.overlaps(boundsTop);
+    }
+
+    public boolean pass(Rectangle birdRec) {
+
+        return birdRec.overlaps(new Rectangle(boundsTop.x, 0, boundsTop.width, UfBird.HEIGHT));
     }
 }

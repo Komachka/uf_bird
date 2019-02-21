@@ -1,19 +1,21 @@
-package com.kstorozh.game.states;
+package com.kstorozh.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kstorozh.game.UfBird;
+import com.kstorozh.game.controller.GameStateController;
 
-public class GameOverState extends State {
+public class MenuState extends State {
+
     private Texture background;
-    private Texture gameOver;
+    private Texture playBut;
 
 
-    protected GameOverState(GameStateManager gsm) {
+    public MenuState(GameStateController gsm) {
         super(gsm);
         background = new Texture("bd-day.png");
-        gameOver = new Texture("gameover.png");
+        playBut = new Texture("message.png");
         camera.setToOrtho(false, UfBird.WIDTH, UfBird.HEIGHT);
     }
 
@@ -24,6 +26,7 @@ public class GameOverState extends State {
             gsm.setState(new PlayState(gsm));
             dispose();
         }
+
     }
 
     @Override
@@ -37,12 +40,13 @@ public class GameOverState extends State {
         handleInput();
         spriteBatch.begin();
         spriteBatch.draw(background, 0,0, UfBird.WIDTH, UfBird.HEIGHT);
-        spriteBatch.draw(gameOver, (UfBird.WIDTH/2 - gameOver.getWidth()/2), (UfBird.HEIGHT/2 - gameOver.getHeight()/2));
+        spriteBatch.draw(playBut, (UfBird.WIDTH/2 - playBut.getWidth()/2), (UfBird.HEIGHT/2 - playBut.getHeight()/2));
         spriteBatch.end();
     }
 
     @Override
     public void dispose() {
-
+        background.dispose();
+        playBut.dispose();
     }
 }

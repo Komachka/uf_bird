@@ -1,6 +1,7 @@
 package com.kstorozh.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -11,12 +12,19 @@ import com.badlogic.gdx.math.Vector3;
 public class Bird {
 
     private static final int GRAVITY = -15;
-
-
     private Vector3 position; //xyz
     private Vector3 velocity;
     private Texture pic;
     private Rectangle bounds;
+    private int score;
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score+=score;
+    }
 
     private static final int SPEED = 100;
 
@@ -25,6 +33,8 @@ public class Bird {
         velocity = new Vector3(0,0,0);
         pic = new Texture("bird.png");
         bounds = new Rectangle(x, y, pic.getWidth(), pic.getHeight());
+        score = 0;
+
     }
 
 
@@ -38,6 +48,7 @@ public class Bird {
             position.y = 0;
         velocity.scl(1/dt);
         bounds.setPosition(position.x, position.y);
+
     }
 
     public Rectangle getBounds() {
