@@ -19,6 +19,8 @@ public class Tube {
     public static final int WIDTH = 52; // size of texture
     private Texture topTube, bottomTube;
     private Vector2 positionTopTube, positionButtomTube;
+    private static final String topTubeImagePath = "tubeTop.png";
+    private static final String bottomTubeImagePath = "tubeBottom.png";
 
     private Rectangle boundsTop, boundsBottom;
 
@@ -26,8 +28,8 @@ public class Tube {
 
     private Random random;
     public Tube(int xStart) {
-        this.topTube = new Texture("badlogic.jpg");
-        this.bottomTube = new Texture("badlogic.jpg");
+        this.topTube = new Texture(topTubeImagePath);
+        this.bottomTube = new Texture(bottomTubeImagePath);
         random = new Random();
         positionTopTube = new Vector2(xStart, random.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
         positionButtomTube = new Vector2(xStart, positionTopTube.y - TUBE_GAP - bottomTube.getHeight());

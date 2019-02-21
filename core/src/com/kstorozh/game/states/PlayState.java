@@ -12,7 +12,9 @@ import java.util.ArrayList;
 public class PlayState extends State {
 
     private Bird bird;
-    private Texture beckground;
+    private Texture background;
+    private static final String imagePath = "sky.png";
+    private static final String gameOverImagePath = "";
 
 
     private ArrayList<Tube> tubes = new ArrayList<Tube>();
@@ -21,7 +23,7 @@ public class PlayState extends State {
         super(gsm);
         bird = new Bird(50, 300);
         camera.setToOrtho(false, UfBird.WIDTH/2, UfBird.HEIGHT/2);
-        beckground = new Texture("sky.png");
+        background = new Texture(imagePath);
         createTubes();
     }
 
@@ -32,8 +34,6 @@ public class PlayState extends State {
 
         }
     }
-
-
 
     @Override
     protected void handleInput() {
@@ -49,7 +49,7 @@ public class PlayState extends State {
     public void update(float dt) {
         handleInput();
         bird.update(dt);
-        camera.position.x = bird.getPosition().x + 80;
+        camera.position.x = bird.getPosition().x + 50;
         for (Tube t : tubes)
         {
             if (camera.position.x - (camera.viewportWidth/2) > t.getPositionTopTube().x + t.getTopTube().getWidth())
@@ -57,7 +57,7 @@ public class PlayState extends State {
                 t.reposition(t.getPositionTopTube().x + ((Tube.WIDTH + Tube.TUBE_SPACING) * Tube.TUBE_COUNT));
             }
             if (t.collides(bird.getBounds()))
-                gsm.setState(new PlayState(gsm));
+                gsm.setState(new GameOverState(gsm));
         }
         camera.update();
 
@@ -68,7 +68,7 @@ public class PlayState extends State {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
 
-        spriteBatch.draw(beckground, camera.position.x - (camera.viewportWidth/2), camera.position.y - (camera.viewportHeight/2));
+        spriteBatch.draw(background, camera.position.x - (camera.viewportWidth/2), camera.position.y - (camera.viewportHeight/2));
 
         for (Tube tube  : tubes) {
             spriteBatch.draw(tube.getTopTube(), tube.getPositionTopTube().x, tube.getPositionTopTube().y);
