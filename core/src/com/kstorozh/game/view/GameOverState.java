@@ -2,20 +2,28 @@ package com.kstorozh.game.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kstorozh.game.UfBird;
 import com.kstorozh.game.controller.GameStateController;
+import com.kstorozh.game.model.Bird;
 
 public class GameOverState extends State {
     private Texture background;
     private Texture gameOver;
+    private String scoreStringName;
+    BitmapFont bitmapScoreName;
+    private Bird bird;
 
 
-    protected GameOverState(GameStateController gsm) {
+    protected GameOverState(GameStateController gsm, Bird bird) {
         super(gsm);
         background = new Texture("bd-day.png");
         gameOver = new Texture("gameover.png");
         camera.setToOrtho(false, UfBird.WIDTH, UfBird.HEIGHT);
+        scoreStringName = "score: 0";
+        bitmapScoreName = new BitmapFont();
+        this.bird = bird;
     }
 
     @Override
@@ -39,6 +47,9 @@ public class GameOverState extends State {
         spriteBatch.begin();
         spriteBatch.draw(background, 0,0, UfBird.WIDTH, UfBird.HEIGHT);
         spriteBatch.draw(gameOver, (UfBird.WIDTH/2 - gameOver.getWidth()/2), (UfBird.HEIGHT/2 - gameOver.getHeight()/2));
+        scoreStringName = "score: " + bird.getScore();
+        bitmapScoreName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        bitmapScoreName.draw(spriteBatch, scoreStringName, (UfBird.WIDTH/2 - gameOver.getWidth()/2),(UfBird.HEIGHT/2 - gameOver.getHeight()/4));
         spriteBatch.end();
     }
 

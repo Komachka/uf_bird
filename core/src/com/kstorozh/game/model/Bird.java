@@ -1,7 +1,9 @@
 package com.kstorozh.game.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -17,6 +19,10 @@ public class Bird {
     private Texture pic;
     private Rectangle bounds;
     private int score;
+    public Sprite birdSprite;
+    private int rotation = 0;
+    private boolean isJump = false;
+    private int frameCount = 1;
 
     public int getScore() {
         return score;
@@ -33,6 +39,7 @@ public class Bird {
         velocity = new Vector3(0,0,0);
         pic = new Texture("bird.png");
         bounds = new Rectangle(x, y, pic.getWidth(), pic.getHeight());
+        birdSprite = new Sprite(pic);
         score = 0;
 
     }
@@ -48,6 +55,24 @@ public class Bird {
             position.y = 0;
         velocity.scl(1/dt);
         bounds.setPosition(position.x, position.y);
+        frameCount += 1;
+        if (isJump && frameCount > 10)
+        {
+            isJump = false;
+            frameCount = 0;
+        }
+        if (isJump)
+        {
+            rotation = 45;
+        }
+        else if (position.y >= 0 && position.y <= 100) {
+            rotation = -45;
+        }
+        else {
+            rotation = 0;
+        }
+        birdSprite.setPosition(position.x, position.y);
+        birdSprite.setRotation(rotation);
 
     }
 
@@ -66,5 +91,8 @@ public class Bird {
     public void jump()
     {
         velocity.y = 250;
+        isJump = true;
+        rotation = 45;
+        frameCount = 0;
     }
 }
