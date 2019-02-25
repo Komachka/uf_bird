@@ -3,7 +3,6 @@ package com.kstorozh.game.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kstorozh.game.controller.GameStateController;
 import com.kstorozh.game.model.Bird;
@@ -22,7 +21,7 @@ public class PlayState extends State {
     private static final String imagePath = "sky.png";
     private String scoreStringName;
     BitmapFont bitmapScoreName;
-    Set<Tube> passedTube = new HashSet<Tube>();
+    private Set<Tube> passedTube = new HashSet<Tube>();
 
 
     private ArrayList<Tube> tubes = new ArrayList<Tube>();
@@ -98,13 +97,12 @@ public class PlayState extends State {
             spriteBatch.draw(tube.getBottomTube(), tube.getPositionButtomTube().x, tube.getPositionButtomTube().y);
 
         }
-        //spriteBatch.draw(bird.getPic(), bird.getPosition().x, bird.getPosition().y);
         bird.birdSprite.draw(spriteBatch);
         scoreStringName = "score: " + bird.getScore();
-        bitmapScoreName.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        bitmapScoreName.draw(spriteBatch, scoreStringName, bird.getPosition().x - 10, 100);
+        bitmapScoreName.setColor(0.973f, 0.718f, 0.2f, 1.0f);
+        bitmapScoreName.getData().setScale((float) 1.5);
+        bitmapScoreName.draw(spriteBatch, scoreStringName, bird.getPosition().x + 20, 550);
         spriteBatch.end();
-
     }
 
     @Override

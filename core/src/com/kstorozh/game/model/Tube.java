@@ -69,7 +69,7 @@ public class Tube {
     }
 
     public boolean pass(Rectangle birdRec) {
-
-        return birdRec.overlaps(new Rectangle(boundsTop.x, 0, boundsTop.width, UfBird.HEIGHT));
+        //new rectangle = last vertical line of tubes
+        return birdRec.overlaps(new Rectangle(boundsTop.x+boundsTop.width, 0, 1, UfBird.HEIGHT));
     }
 }

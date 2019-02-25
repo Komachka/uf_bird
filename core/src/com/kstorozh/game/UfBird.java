@@ -22,7 +22,7 @@ public class UfBird extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		gsm = new GameStateController();
 		gsm.pushState(new MenuState(gsm));
-		Gdx.gl.glClearColor(0, 0, 1, 1);
+		Gdx.gl.glClearColor(0.306f, 0.753f, 0.792f, 1.0f);
 
 	}
 
