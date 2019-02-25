@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.kstorozh.game.controller.GameStateController;
 
-public abstract class State {
+public abstract class View {
     protected OrthographicCamera camera;
     protected Vector3 mouse;
     protected GameStateController gsm;
 
 
-    protected State(GameStateController gsm) {
+    protected View(GameStateController gsm) {
         this.gsm = gsm;
         camera = new OrthographicCamera();
         mouse = new Vector3();

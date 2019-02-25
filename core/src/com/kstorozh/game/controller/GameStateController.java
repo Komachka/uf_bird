@@ -1,31 +1,32 @@
 package com.kstorozh.game.controller;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.kstorozh.game.view.State;
+import com.kstorozh.game.view.View;
 
 import java.util.Stack;
 
 public class GameStateController {
-    private Stack<State> stateStack;
+    private Stack<View> stateStack;
 
 
     public GameStateController() {
-        stateStack = new Stack<State>();
+        stateStack = new Stack<View>();
     }
 
-    public void pushState(State state)
+    public void pushState(View state)
     {
         stateStack.push(state);
     }
 
     public void popState()
     {
-        stateStack.pop();
+
+        stateStack.pop().dispose();
     }
 
-    public void setState(State state)
+    public void setState(View state)
     {
-        stateStack.pop();
+        stateStack.pop().dispose();
         stateStack.push(state);
     }
 

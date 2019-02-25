@@ -8,7 +8,7 @@ import com.kstorozh.game.UfBird;
 import com.kstorozh.game.controller.GameStateController;
 import com.kstorozh.game.model.Bird;
 
-public class GameOverState extends State {
+public class GameOverView extends View {
     private Texture background;
     private Texture gameOver;
     private String scoreStringName;
@@ -16,7 +16,7 @@ public class GameOverState extends State {
     private Bird bird;
 
 
-    protected GameOverState(GameStateController gsm, Bird bird) {
+    protected GameOverView(GameStateController gsm, Bird bird) {
         super(gsm);
         background = new Texture("bd-day.png");
         gameOver = new Texture("gameover.png");
@@ -30,7 +30,7 @@ public class GameOverState extends State {
     protected void handleInput() {
         if (Gdx.input.justTouched())
         {
-            gsm.setState(new PlayState(gsm));
+            gsm.setState(new PlayView(gsm));
             dispose();
         }
     }
@@ -56,6 +56,7 @@ public class GameOverState extends State {
 
     @Override
     public void dispose() {
-
+        gameOver.dispose();
+        bitmapScoreName.dispose();
     }
 }

@@ -72,4 +72,9 @@ public class Tube {
         //new rectangle = last vertical line of tubes
         return birdRec.overlaps(new Rectangle(boundsTop.x+boundsTop.width, 0, 1, UfBird.HEIGHT));
     }
+
+    public void dispose() {
+        topTube.dispose();
+        bottomTube.dispose();
+    }
 }

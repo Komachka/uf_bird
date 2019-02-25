@@ -2,10 +2,11 @@ package com.kstorozh.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kstorozh.game.controller.GameStateController;
-import com.kstorozh.game.view.MenuState;
+import com.kstorozh.game.view.MenuView;
 
 public class UfBird extends ApplicationAdapter {
 	public static final int WIDTH = 480;
@@ -13,6 +14,8 @@ public class UfBird extends ApplicationAdapter {
 	public static final String TITLE = "uf_bird";
 
 	private GameStateController gsm;
+	private Music music;
+	private static final String musicFile = "music.mp3";
 
 	SpriteBatch batch;
 
@@ -21,7 +24,13 @@ public class UfBird extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		gsm = new GameStateController();
-		gsm.pushState(new MenuState(gsm));
+
+		music = Gdx.audio.newMusic(Gdx.files.internal(musicFile));
+		music.setLooping(true);
+		music.setVolume(0.1f);
+		music.play();
+
+		gsm.pushState(new MenuView(gsm));
 		Gdx.gl.glClearColor(0.306f, 0.753f, 0.792f, 1.0f);
 
 	}
@@ -38,6 +47,7 @@ public class UfBird extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		music.dispose();
 
 	}
 }

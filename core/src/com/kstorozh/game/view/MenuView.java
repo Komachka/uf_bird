@@ -6,13 +6,13 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.kstorozh.game.UfBird;
 import com.kstorozh.game.controller.GameStateController;
 
-public class MenuState extends State {
+public class MenuView extends View {
 
     private Texture background;
     private Texture playBut;
 
 
-    public MenuState(GameStateController gsm) {
+    public MenuView(GameStateController gsm) {
         super(gsm);
         background = new Texture("bd-day.png");
         playBut = new Texture("message.png");
@@ -23,8 +23,7 @@ public class MenuState extends State {
     protected void handleInput() {
         if (Gdx.input.justTouched())
         {
-            gsm.setState(new PlayState(gsm));
-            dispose();
+            gsm.setState(new PlayView(gsm));
         }
 
     }

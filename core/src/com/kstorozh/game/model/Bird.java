@@ -1,9 +1,10 @@
 package com.kstorozh.game.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -23,6 +24,10 @@ public class Bird {
     private int rotation = 0;
     private boolean isJump = false;
     private int frameCount = 1;
+    private Sound wing;
+
+
+    private BirdAnimation animationBird;
 
     public int getScore() {
         return score;
@@ -37,16 +42,20 @@ public class Bird {
     public Bird(int x, int y) {
         position = new Vector3(x,y,0);
         velocity = new Vector3(0,0,0);
-        pic = new Texture("bird.png");
-        bounds = new Rectangle(x, y, pic.getWidth(), pic.getHeight());
-        birdSprite = new Sprite(pic);
+        pic = new Texture("bird_fly.png");
+        animationBird = new BirdAnimation(pic, 3, 0.5f);
+        bounds = new Rectangle(x, y, pic.getWidth()/3, pic.getHeight());
+        birdSprite = new Sprite(animationBird.getFrame());
         score = 0;
+        wing = Gdx.audio.newSound(Gdx.files.internal("wing.ogg"));
 
     }
 
 
     public void update(float dt)
     {
+        animationBird.update(dt);
+        birdSprite.setRegion(animationBird.getFrame());
         if (position.y > 0)
                 velocity.add(0, GRAVITY, 0);
         velocity.scl(dt);
@@ -84,8 +93,8 @@ public class Bird {
         return position;
     }
 
-    public Texture getPic() {
-        return pic;
+    public TextureRegion getPic() {
+        return animationBird.getFrame();
     }
 
     public void jump()
@@ -94,5 +103,11 @@ public class Bird {
         isJump = true;
         rotation = 45;
         frameCount = 0;
+        wing.play(0.5f);
+    }
+
+    public void dispose() {
+        pic.dispose();
+        wing.dispose();
     }
 }
