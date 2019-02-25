@@ -103,8 +103,6 @@ public class PlayView extends View {
     public void render(SpriteBatch spriteBatch) {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
-
-
         spriteBatch.draw(background, camera.position.x - (camera.viewportWidth/2), camera.position.y - (camera.viewportHeight/2), (int)(background.getWidth()*1.7), (int)(background.getHeight()*1.7));
 
 
